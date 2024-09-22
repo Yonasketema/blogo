@@ -1,0 +1,40 @@
+.env
+# Binaries
+*.exe
+*.exe~
+*.dll
+*.so
+*.dylib
+
+# Build directory
+/build/
+bin/
+out/
+
+# Dependency directories
+/vendor/
+.Gopkg.lock
+Gopkg.toml
+
+# Go workspace files
+/go.mod
+/go.sum
+
+# IDE/editor files
+.idea/
+.vscode/
+*.swp
+*.swo
+*.tmp
+
+# OS generated files
+.DS_Store
+Thumbs.db
+
+# Test output
+*.test
+
+# Coverage files
+*.out
+
+
