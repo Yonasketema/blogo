@@ -1,0 +1,21 @@
+{{define "base"}}
+<!doctype html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8" />
+        <link rel="stylesheet" href="/static/css/main.css" />
+        <title>{{template "title" .}} - blogo</title>
+    </head>
+    <body>
+        <header>
+            <h1 class="text-3xl font-bold underline text-red-500">
+                Hello world!
+            </h1>
+            <h1>Blogo</h1>
+            {{template "nav" .}}
+        </header>
+        <main>{{template "main" .}}</main>
+        <footer>@yon</footer>
+    </body>
+</html>
+{{end}}

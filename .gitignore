@@ -6,6 +6,8 @@
 *.so
 *.dylib
 
+/node_modules
+
 # Build directory
 /build/
 bin/
@@ -16,9 +18,6 @@ out/
 .Gopkg.lock
 Gopkg.toml
 
-# Go workspace files
-/go.mod
-/go.sum
 
 # IDE/editor files
 .idea/
@@ -36,5 +35,3 @@ Thumbs.db
 
 # Coverage files
 *.out
-
-
