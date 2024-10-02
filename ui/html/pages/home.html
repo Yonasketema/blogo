@@ -1,4 +1,18 @@
 {{define "title"}}Home{{end}} {{define "main"}}
-<h2>Latest Blog</h2>
-<p>There's nothing to see here yet!</p>
+
+<div class="px-40 pt-20 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+    <div class="bg-white p-6 rounded-lg shadow-lg">
+        <img
+            src="https://picsum.photos/300"
+            alt="Blog Post 6"
+            class="rounded-t-lg mb-4"
+        />
+        <h2 class="text-xl font-semibold mb-2">blogo</h2>
+        <p class="text-gray-700 mb-4 line-clamp-2">hi...</p>
+        <a href="/blog/1231" class="text-blue-500 hover:underline">
+            Read more</a
+        >
+    </div>
+</div>
+
 {{end}}
