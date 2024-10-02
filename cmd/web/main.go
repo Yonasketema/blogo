@@ -1,68 +1,61 @@
 package main
 
+// TODO : 65 - 70
+// TODO : 89 - better model config - the gist
+//
+
 import (
-	"fmt"
-	"html/template"
-	"log"
+	"database/sql"
+	"flag"
+	"log/slog"
 	"net/http"
-	"strconv"
+	"os"
+
+	_ "github.com/go-sql-driver/mysql"
 )
 
-func home(w http.ResponseWriter, r *http.Request) {
-
-	files := []string{
-		"./ui/html/pages/base.html",
-		"./ui/html/components/nav.html",
-		"./ui/html/pages/home.html",
-	}
-	tmpl, err := template.ParseFiles(files...)
-	if err != nil {
-		log.Print(err.Error())
-		http.Error(w, "Internal server errror", http.StatusInternalServerError)
-	}
-
-	err = tmpl.ExecuteTemplate(w, "base", nil)
-	if err != nil {
-		log.Print(err.Error())
-		http.Error(w, "Internal server errror", http.StatusInternalServerError)
-	}
-
-}
-
-func createBlog(w http.ResponseWriter, r *http.Request) {
-	w.WriteHeader(http.StatusCreated)
-	w.Write([]byte("home ..... "))
-}
-
-func viewCreateBlog(w http.ResponseWriter, r *http.Request) {
-	w.Write([]byte("viewCreateBlog ..... "))
-}
-
-func viewBlog(w http.ResponseWriter, r *http.Request) {
-	id, err := strconv.Atoi(r.PathValue("id"))
-	if err != nil || id < 1 {
-		http.NotFound(w, r)
-		return
-	}
-	msg := fmt.Sprintf("blog id %d", id)
-	w.Write([]byte(msg))
+type app struct {
+	logger *slog.Logger
 }
 
 func main() {
-	mux := http.NewServeMux()
 
-	fileServer := http.FileServer(http.Dir("./ui/static/"))
+	port := flag.String("p", ":8080", "serve port")
+	db_url := flag.String("db", "user:password@/dbname", "db url : user:password@/dbname")
 
-	mux.Handle("GET /static/", http.StripPrefix("/static", fileServer))
-	mux.HandleFunc("GET /{$}", home)
-	mux.HandleFunc("POST /blog/create", createBlog)
+	flag.Parse()
 
-	mux.HandleFunc("GET /blog/view/create", viewCreateBlog)
-	mux.HandleFunc("GET /blog/view/{id}", viewBlog)
+	logger := slog.New(slog.NewTextHandler(os.Stdout, nil))
 
-	log.Print("> server running on port :8080 ")
+	db, err := openDB(*db_url)
+	if err != nil {
+		logger.Error(err.Error())
+	}
 
-	err := http.ListenAndServe(":8080", mux)
+	defer db.Close()
+	app := &app{logger: logger}
+	// TODO: from the videos go about &
 
-	log.Fatal(err)
+	logger.Info("> server running on", "port", *port)
+
+	err = http.ListenAndServe(*port, app.routes())
+
+	logger.Error(err.Error())
+	os.Exit(1)
+}
+
+func openDB(db_url string) (*sql.DB, error) {
+	db, err := sql.Open("mysql", db_url)
+
+	if err != nil {
+		return nil, err
+	}
+
+	err = db.Ping()
+	if err != nil {
+		db.Close()
+		return nil, err
+	}
+	return db, nil
+
 }
