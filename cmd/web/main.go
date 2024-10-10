@@ -1,9 +1,5 @@
 package main
 
-// TODO : 65 - 70
-// TODO : 89 - better model config - the gist
-//
-
 import (
 	"database/sql"
 	"flag"
@@ -12,10 +8,12 @@ import (
 	"os"
 
 	_ "github.com/go-sql-driver/mysql"
+	"github.com/yonasketema/blogo/internal/models"
 )
 
 type app struct {
 	logger *slog.Logger
+	blogs  *models.BlogModel
 }
 
 func main() {
@@ -33,8 +31,10 @@ func main() {
 	}
 
 	defer db.Close()
-	app := &app{logger: logger}
-	// TODO: from the videos go about &
+	app := &app{
+		logger: logger,
+		blogs:  &models.BlogModel{DB: db},
+	}
 
 	logger.Info("> server running on", "port", *port)
 
