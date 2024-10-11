@@ -7,11 +7,7 @@
         <title>{{template "title" .}} - blogo</title>
     </head>
     <body>
-        <header>
-            <h1 class="text-3xl font-bold text-red-100">Blogo</h1>
-
-            {{template "nav" .}}
-        </header>
+        <header>{{template "nav" .}}</header>
         <main class="w-full">{{template "main" .}}</main>
         <footer>@yon</footer>
     </body>
