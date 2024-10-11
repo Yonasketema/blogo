@@ -19,8 +19,13 @@ func (a *app) home(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	for _, blog := range blogs {
-		fmt.Fprint(w, "%+v\n", blog)
+	// for _, blog := range blogs {
+	// 	fmt.Fprint(w, "%+v\n", blog)
+	// }
+	//
+
+	data := templateData{
+		Blogs: blogs,
 	}
 
 	files := []string{
@@ -34,7 +39,8 @@ func (a *app) home(w http.ResponseWriter, r *http.Request) {
 		http.Error(w, "Internal server errror", http.StatusInternalServerError)
 	}
 
-	err = tmpl.ExecuteTemplate(w, "base", nil)
+	err = tmpl.ExecuteTemplate(w, "base", data)
+
 	if err != nil {
 		a.serverError(w, r, err)
 		http.Error(w, "Internal server errror", http.StatusInternalServerError)
@@ -89,7 +95,11 @@ func (a *app) viewBlog(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	err = ts.ExecuteTemplate(w, "base", blog)
+	data := templateData{
+		Blog: blog,
+	}
+
+	err = ts.ExecuteTemplate(w, "base", data)
 
 	if err != nil {
 		a.serverError(w, r, err)
