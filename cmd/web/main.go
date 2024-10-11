@@ -3,6 +3,7 @@ package main
 import (
 	"database/sql"
 	"flag"
+	"html/template"
 	"log/slog"
 	"net/http"
 	"os"
@@ -12,8 +13,9 @@ import (
 )
 
 type app struct {
-	logger *slog.Logger
-	blogs  *models.BlogModel
+	logger        *slog.Logger
+	blogs         *models.BlogModel
+	templateCache map[string]*template.Template
 }
 
 func main() {
@@ -31,9 +33,13 @@ func main() {
 	}
 
 	defer db.Close()
+
+	templateCache, err := templateCache()
+
 	app := &app{
-		logger: logger,
-		blogs:  &models.BlogModel{DB: db},
+		logger:        logger,
+		blogs:         &models.BlogModel{DB: db},
+		templateCache: templateCache,
 	}
 
 	logger.Info("> server running on", "port", *port)

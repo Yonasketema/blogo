@@ -28,23 +28,7 @@ func (a *app) home(w http.ResponseWriter, r *http.Request) {
 		Blogs: blogs,
 	}
 
-	files := []string{
-		"./ui/html/pages/base.html",
-		"./ui/html/components/nav.html",
-		"./ui/html/pages/home.html",
-	}
-	tmpl, err := template.ParseFiles(files...)
-	if err != nil {
-		a.serverError(w, r, err)
-		http.Error(w, "Internal server errror", http.StatusInternalServerError)
-	}
-
-	err = tmpl.ExecuteTemplate(w, "base", data)
-
-	if err != nil {
-		a.serverError(w, r, err)
-		http.Error(w, "Internal server errror", http.StatusInternalServerError)
-	}
+	a.render(w, r, http.StatusOK, "home.html", data)
 
 }
 
