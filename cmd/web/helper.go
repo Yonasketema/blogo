@@ -39,7 +39,12 @@ func (a *app) render(w http.ResponseWriter, r *http.Request, status int, page st
 	if err != nil {
 		a.serverError(w, r, err)
 	}
+
 	w.WriteHeader(status)
 
 	buf.WriteTo(w)
+}
+
+func (a *app) notFound(w http.ResponseWriter, r *http.Request, data templateData) {
+	a.render(w, r, http.StatusNotFound, "notFound.html", data)
 }

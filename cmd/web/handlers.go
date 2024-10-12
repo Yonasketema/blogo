@@ -3,7 +3,6 @@ package main
 import (
 	"errors"
 	"fmt"
-	"html/template"
 	"net/http"
 	"strconv"
 
@@ -51,15 +50,21 @@ func (a *app) viewCreateBlog(w http.ResponseWriter, r *http.Request) {
 
 func (a *app) viewBlog(w http.ResponseWriter, r *http.Request) {
 	id, err := strconv.Atoi(r.PathValue("id"))
+
 	if err != nil || id < 1 {
 		http.NotFound(w, r)
 		return
 	}
+
 	blog, err := a.blogs.GetOneBlog(id)
+
+	data := templateData{
+		Blog: blog,
+	}
 
 	if err != nil {
 		if errors.Is(err, models.ErrNoRecord) {
-			http.NotFound(w, r)
+			a.notFound(w, r, data)
 		} else {
 			a.serverError(w, r, err)
 		}
@@ -67,27 +72,7 @@ func (a *app) viewBlog(w http.ResponseWriter, r *http.Request) {
 
 	}
 
-	files := []string{
-		"./ui/html/pages/base.html",
-		"./ui/html/components/nav.html",
-		"./ui/html/pages/blog.html",
-	}
-
-	ts, err := template.ParseFiles(files...)
-	if err != nil {
-		a.serverError(w, r, err)
-		return
-	}
-
-	data := templateData{
-		Blog: blog,
-	}
-
-	err = ts.ExecuteTemplate(w, "base", data)
-
-	if err != nil {
-		a.serverError(w, r, err)
-	}
+	a.render(w, r, http.StatusOK, "blog.html", data)
 
 	// fmt.Fprintf(w, "%+v", blog)
 	// w.Write([]byte(msg))
