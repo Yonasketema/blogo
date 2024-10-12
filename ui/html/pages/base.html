@@ -12,8 +12,77 @@
     >
       {{template "nav" .}}
     </header>
-    <main class="w-full">{{template "main" .}}</main>
-    <footer>@yon</footer>
+    <main class="w-full h-full mb-9">{{template "main" .}}</main>
+    <footer class="bg-white py-12">
+      <div class="container mx-auto px-4">
+        <div
+          class="flex flex-col md:flex-row gap-6 justify-between items-start"
+        >
+          <div class="mb-8 md:mb-0">
+            <h2 class="text-xl font-bold">Subscribe to our newsletter</h2>
+            <p class="mt-2 text-gray-600">
+              Join Our Reading Community! Get fresh insights, expert advice, and
+              updates on new articles every week
+            </p>
+            <form class="mt-4">
+              <input
+                type="email"
+                placeholder="Your email address"
+                class="p-2 border border-gray-300 rounded-l-lg"
+              />
+              <button class="bg-blue-500 text-white px-4 py-2 rounded-r-lg">
+                Subscribe
+              </button>
+            </form>
+          </div>
+
+          <div class="flex flex-col md:flex-row space-x-10 mb-8 md:mb-0">
+            <div>
+              <h3 class="font-bold">recent blog</h3>
+              <ul class="mt-2 space-y-2">
+                <li>
+                  <a href="#" class="text-gray-600 hover:text-blue-500"
+                    >Building a Space Exploration Dashboard with Golang</a
+                  >
+                </li>
+                <li>
+                  <a href="#" class="text-gray-600 hover:text-blue-500"
+                    >Rocket Science Made Easy</a
+                  >
+                </li>
+                <li>
+                  <a href="#" class="text-gray-600 hover:text-blue-500"
+                    >Creating a Real-Time Space Weather App: Full-Stack
+                    Development with JavaScript and Rust</a
+                  >
+                </li>
+                <li>
+                  <a href="#" class="text-gray-600 hover:text-blue-500"
+                    >Exploring the Cosmos</a
+                  >
+                </li>
+              </ul>
+            </div>
+          </div>
+        </div>
+
+        <div className="flex justify-between items-center mt-12 border-t pt-4">
+          <p className="text-gray-600">© 2024 Yonask. All rights reserved.</p>
+          <div className="flex space-x-4">
+            <a href="#" className="text-gray-600 hover:text-blue-500"
+              >Twitter</a
+            >
+            <a href="#" className="text-gray-600 hover:text-blue-500"
+              >Facebook</a
+            >
+            <a href="#" className="text-gray-600 hover:text-blue-500"
+              >LinkedIn</a
+            >
+            <a href="#" className="text-gray-600 hover:text-blue-500">Github</a>
+          </div>
+        </div>
+      </div>
+    </footer>
   </body>
 </html>
 {{end}}
