@@ -51,16 +51,15 @@ func (a *app) viewCreateBlog(w http.ResponseWriter, r *http.Request) {
 func (a *app) viewBlog(w http.ResponseWriter, r *http.Request) {
 	id, err := strconv.Atoi(r.PathValue("id"))
 
+	data := templateData{}
+
 	if err != nil || id < 1 {
-		http.NotFound(w, r)
+		a.notFound(w, r, data)
+
 		return
 	}
 
 	blog, err := a.blogs.GetOneBlog(id)
-
-	data := templateData{
-		Blog: blog,
-	}
 
 	if err != nil {
 		if errors.Is(err, models.ErrNoRecord) {
@@ -72,6 +71,9 @@ func (a *app) viewBlog(w http.ResponseWriter, r *http.Request) {
 
 	}
 
+	data = templateData{
+		Blog: blog,
+	}
 	a.render(w, r, http.StatusOK, "blog.html", data)
 
 	// fmt.Fprintf(w, "%+v", blog)
