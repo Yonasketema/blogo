@@ -21,7 +21,6 @@ func templateCache() (map[string]*template.Template, error) {
 		return nil, err
 	}
 
-
 	for _, page := range pages {
 		name := filepath.Base(page)
 

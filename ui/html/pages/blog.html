@@ -1,13 +1,13 @@
 {{define "title"}}Blog #{{.Blog.Id}}{{end}} {{define "main"}} {{with .Blog}}
 <div class="snippet">
-    <h1 class="text-cyan-700 text-lg">Me</h1>
-    <div class="metadata">
-        <strong>{{ .Title}}</strong>
-        <span>#{{ .Id}}</span>
-    </div>
-    <pre><code>{{.Content}}</code></pre>
-    <div class="metadata">
-        <time>Created: {{.Created}}</time>
-    </div>
+  <h1 class="text-cyan-700 text-lg">Me</h1>
+  <div class="metadata">
+    <strong>{{ .Title}}</strong>
+    <span>#{{ .Id}}</span>
+  </div>
+  <pre><code>{{.Content}}</code></pre>
+  <div class="metadata">
+    <time>Created: {{.Created}}</time>
+  </div>
 </div>
 {{end}} {{end}}

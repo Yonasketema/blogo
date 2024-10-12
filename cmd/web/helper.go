@@ -24,9 +24,9 @@ func (a *app) clientError(w http.ResponseWriter, status int) {
 
 func (a *app) render(w http.ResponseWriter, r *http.Request, status int, page string, data templateData) {
 
-	ts, exists := a.templateCache[page]
+	ts, ok := a.templateCache[page]
 
-	if !exists {
+	if !ok {
 		err := fmt.Errorf("the template %s does not exist", page)
 		a.serverError(w, r, err)
 		return

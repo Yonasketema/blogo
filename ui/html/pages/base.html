@@ -1,15 +1,19 @@
 {{define "base"}}
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
-    <head>
-        <meta charset="utf-8" />
-        <link rel="stylesheet" href="/static/css/main.css" />
-        <title>{{template "title" .}} - blogo</title>
-    </head>
-    <body>
-        <header>{{template "nav" .}}</header>
-        <main class="w-full">{{template "main" .}}</main>
-        <footer>@yon</footer>
-    </body>
+  <head>
+    <meta charset="utf-8" />
+    <link rel="stylesheet" href="/static/css/main.css" />
+    <title>{{template "title" .}} - blogo</title>
+  </head>
+  <body>
+    <header
+      class="bg-white flex justify-between border-b-2 border-b-gray-100 h-16 items-center px-40 shadow-sm"
+    >
+      {{template "nav" .}}
+    </header>
+    <main class="w-full">{{template "main" .}}</main>
+    <footer>@yon</footer>
+  </body>
 </html>
 {{end}}
