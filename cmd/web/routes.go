@@ -15,5 +15,5 @@ func (a *app) routes() http.Handler {
 	mux.HandleFunc("GET /blog/create", a.viewCreateBlog)
 	mux.HandleFunc("GET /blog/{id}", a.viewBlog)
 
-	return a.logRequest(mux)
+	return a.recoverPanic(a.logRequest(mux))
 }
