@@ -1,0 +1,19 @@
+{{define "title"}}error{{end}} {{define "main"}}
+<div class="flex items-center justify-center h-screen bg-gray-100">
+  <div class="text-center">
+    <div class="relative inline-block">
+      <div class="absolute inset-x-0 top-0 transform -translate-y-1/2">
+        <div class="flex justify-center">
+          <div class="w-1 h-1 bg-red-500 rounded-full"></div>
+        </div>
+      </div>
+      <div
+        class="inline-block px-6 py-4 bg-gray-200 border-2 border-gray-500 rounded-md"
+      >
+        <h1 class="text-6xl font-bold text-red-500">500</h1>
+      </div>
+    </div>
+    <p class="mt-4 text-xl text-red-500">Internal Server Error</p>
+  </div>
+</div>
+{{end}}

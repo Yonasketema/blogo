@@ -4,7 +4,7 @@
   "description": "a blog app build with golang",
   "main": "index.js",
   "scripts": {
-    "build": "tailwindcss -i ./ui/static/css/tailwind.css -o ./ui/static/css/main.css"
+    "build": "tailwindcss -i ./ui/static/css/tailwind.css -o ./ui/static/css/main.css --watch"
   },
   "keywords": [],
   "author": "",

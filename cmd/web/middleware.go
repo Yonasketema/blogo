@@ -3,6 +3,7 @@ package main
 import (
 	"fmt"
 	"net/http"
+	"runtime/debug"
 )
 
 func (a *app) logRequest(next http.Handler) http.Handler {
@@ -33,7 +34,17 @@ func (a *app) recoverPanic(next http.Handler) http.Handler {
 			if err := recover(); err != nil {
 				w.Header().Set("Connection", "close")
 
-				a.serverError(w, r, fmt.Errorf("%s", err))
+				var (
+					method = r.Method
+					uri    = r.URL.RequestURI()
+					trace  = string(debug.Stack())
+				)
+				err := fmt.Errorf("%s", err)
+				a.logger.Error(err.Error(), "method", method, "uri", uri, trace, "trace")
+
+				data := templateData{}
+				a.render(w, r, http.StatusInternalServerError, "serverError.html", data)
+				// a.serverError(w, r, fmt.Errorf("%s", err))
 			}
 		}()
 
