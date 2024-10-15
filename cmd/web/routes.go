@@ -10,7 +10,7 @@ func (a *app) routes() http.Handler {
 
 	mux.Handle("GET /static/", http.StripPrefix("/static", fileServer))
 	mux.HandleFunc("GET /{$}", a.home)
-	mux.HandleFunc("POST /blog", a.createBlog)
+	mux.HandleFunc("POST /blog/create", a.createBlog)
 
 	mux.HandleFunc("GET /blog/create", a.viewCreateBlog)
 	mux.HandleFunc("GET /blog/{id}", a.viewBlog)

@@ -1,0 +1,36 @@
+{{define "title"}}Home{{end}} {{define "main"}}
+
+<div class="flex items-center justify-center bg-gray-100 py-7">
+  <form action="/blog/create" method="POST">
+    <p>
+      <label>
+        Post Title
+        <input
+          type="text"
+          name="title"
+          class="w-full rounded border border-gray-500 px-2 py-1 text-lg"
+        />
+      </label>
+    </p>
+
+    <p>
+      <label for="content">content: </label>
+      <br />
+      <textarea
+        name="content"
+        rows="8"
+        class="w-full rounded border border-gray-500 px-2 py-1 text-lg font-mono"
+      ></textarea>
+    </p>
+    <p class="text-right">
+      <button
+        type="submit"
+        class="rounded bg-blue-500 py-2 px-4 text-white hover:bg-blue-600 focus:bg-blue-400 disabled:bg-blue-300"
+      >
+        Create Post
+      </button>
+    </p>
+  </form>
+</div>
+
+{{end}}

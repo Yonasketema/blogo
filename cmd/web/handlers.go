@@ -32,11 +32,17 @@ func (a *app) home(w http.ResponseWriter, r *http.Request) {
 }
 
 func (a *app) createBlog(w http.ResponseWriter, r *http.Request) {
-	w.WriteHeader(http.StatusCreated)
-	title := "wow go"
-	content := "best lang fast and easy"
+
+	err := r.ParseForm()
+	if err != nil {
+		a.clientError(w, http.StatusBadRequest)
+		return
+	}
+	title := r.PostForm.Get("title")
+	content := r.PostForm.Get("content")
 
 	id, err := a.blogs.InsertBlog(title, content)
+
 	if err != nil {
 		a.serverError(w, r, err)
 	}
@@ -45,7 +51,10 @@ func (a *app) createBlog(w http.ResponseWriter, r *http.Request) {
 }
 
 func (a *app) viewCreateBlog(w http.ResponseWriter, r *http.Request) {
-	w.Write([]byte("viewCreateBlog ..... "))
+
+	data := templateData{}
+	a.render(w, r, http.StatusOK, "create.html", data)
+
 }
 
 func (a *app) viewBlog(w http.ResponseWriter, r *http.Request) {
