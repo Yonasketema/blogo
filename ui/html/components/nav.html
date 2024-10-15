@@ -1,11 +1,16 @@
 {{define "nav"}}
-<h1 class="text-3xl font-bol">☕️</h1>
-
-<nav class="space-x-3">
-  <a href="/" class="text-gray-500">Home</a>
-  <a href="#" class="text-gray-500">Blogs</a>
-  <button class="bg-blue-300 rounded-lg text-center px-1 py-2">
-    Get Started
-  </button>
-</nav>
+<div
+  class="max-w-6xl w-full flex justify-between items-center py-4 bg-white mb-7"
+>
+  <h1 class="text-3xl font-bold">Bg</h1>
+  <nav class="space-x-4">
+    <a href="/" class="text-gray-500">Home</a>
+    <a href="#" class="text-gray-500">Blogs</a>
+    <a href="/blog/create" class="text-gray-500">Create Blog</a>
+  </nav>
+  <div>
+    <button class="mr-2 text-gray-500">Sign In</button>
+    <button class="px-4 py-2 bg-blue-500 text-white rounded">Sign Up</button>
+  </div>
+</div>
 {{end}}

@@ -7,12 +7,12 @@
     <title>{{template "title" .}} - blogo</title>
   </head>
   <body>
-    <header
-      class="bg-white flex justify-between border-b-2 border-b-gray-100 h-16 items-center px-40 shadow-sm"
-    >
+    <header class="flex justify-center w-full bg-white">
       {{template "nav" .}}
     </header>
-    <main class="w-full h-full mb-9">{{template "main" .}}</main>
+    <main class="w-full h-full mb-9 flex justify-center">
+      {{template "main" .}}
+    </main>
     <footer class="bg-white py-12">
       <div class="container mx-auto px-4">
         <div
