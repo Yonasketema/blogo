@@ -70,8 +70,8 @@ func (m *BlogModel) GetAllBlog() ([]Blog, error) {
 
 func (m *BlogModel) InsertBlog(title string, content string) (int, error) {
 
-	sqls := `INSERT INTO blogs (title, content)
-			 VALUES(?, ?, UTC_TIMESTAMP(), DATE_ADD(UTC_TIMESTAMP(), INTERVAL ? DAY))`
+	sqls := `INSERT INTO blogs (title, content, created)
+			 VALUES(?, ?, UTC_TIMESTAMP())`
 
 	result, err := m.DB.Exec(sqls, title, content)
 
