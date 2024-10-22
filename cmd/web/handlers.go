@@ -5,6 +5,8 @@ import (
 	"fmt"
 	"net/http"
 	"strconv"
+	"strings"
+	"unicode/utf8"
 
 	"github.com/yonasketema/blogo/internal/models"
 )
@@ -38,11 +40,27 @@ func (a *app) createBlog(w http.ResponseWriter, r *http.Request) {
 		a.clientError(w, http.StatusBadRequest)
 		return
 	}
+
 	title := r.PostForm.Get("title")
 	content := r.PostForm.Get("content")
 
-	id, err := a.blogs.InsertBlog(title, content)
+	fieldErrors := make(map[string]string)
 
+	if strings.TrimSpace(title) == "" {
+		fieldErrors["title"] = "This field cannot be blank"
+	} else if utf8.RuneCountInString(title) > 300 {
+		fieldErrors["title"] = "This field cannot be more than 300 characters long"
+	}
+
+	if strings.TrimSpace(content) == "" {
+		fieldErrors["content"] = "This field cannot be blank"
+	}
+	if len(fieldErrors) > 0 {
+		fmt.Fprint(w, fieldErrors)
+		return
+	}
+
+	id, err := a.blogs.InsertBlog(title, content)
 	if err != nil {
 		a.serverError(w, r, err)
 	}
