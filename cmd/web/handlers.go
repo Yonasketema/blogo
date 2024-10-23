@@ -5,16 +5,16 @@ import (
 	"fmt"
 	"net/http"
 	"strconv"
-	"strings"
-	"unicode/utf8"
 
 	"github.com/yonasketema/blogo/internal/models"
+	"github.com/yonasketema/blogo/internal/validator"
 )
 
 type blogCreateForm struct {
-	Title       string
-	Content     string
-	FieldErrors map[string]string
+	Title   string
+	Content string
+	// FieldErrors map[string]string
+	validator.Validator
 }
 
 func (a *app) home(w http.ResponseWriter, r *http.Request) {
@@ -48,22 +48,19 @@ func (a *app) createBlog(w http.ResponseWriter, r *http.Request) {
 	}
 
 	formData := blogCreateForm{
-		Title:       r.PostForm.Get("title"),
-		Content:     r.PostForm.Get("content"),
-		FieldErrors: map[string]string{},
+		Title:   r.PostForm.Get("title"),
+		Content: r.PostForm.Get("content"),
+		//  🫖️FieldErrors: map[string]string{}
+		// 🫖️ Validator: validator.Validator{FieldErrors: },
 	}
 
-	if strings.TrimSpace(formData.Title) == "" {
-		formData.FieldErrors["title"] = "This field cannot be blank"
-	} else if utf8.RuneCountInString(formData.Title) > 110 {
-		formData.FieldErrors["title"] = "This field cannot be more than 110 characters long"
-	}
+	//  🫖️ formData.FieldErrors
 
-	if strings.TrimSpace(formData.Content) == "" {
-		formData.FieldErrors["content"] = "This field cannot be blank"
-	}
+	formData.CheckFields(validator.NotBlank(formData.Title), "title", "This field cannot be blank")
+	formData.CheckFields(validator.MaxChars(formData.Title, 110), "title", "This field cannot be more than 110 characters long")
+	formData.CheckFields(validator.NotBlank(formData.Content), "content", "This field cannot be blank")
 
-	if len(formData.FieldErrors) > 0 {
+	if !formData.Valid() {
 
 		data := templateData{}
 		data.Form = formData
