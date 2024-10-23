@@ -1,6 +1,6 @@
-{{define "title"}}Home{{end}} {{define "main"}}
+{{define "title"}}create post{{end}} {{define "main"}}
 
-<div class="flex items-center justify-center bg-gray-100 py-7">
+<div class="flex items-center justify-center py-7">
   <form action="/blog/create" method="POST">
     <p>
       <label>
@@ -8,9 +8,13 @@
         <input
           type="text"
           name="title"
+          value="{{.Form.Title}}"
           class="w-full rounded border border-gray-500 px-2 py-1 text-lg"
         />
       </label>
+      {{with .Form.FieldErrors.title}}
+      <label class="text-red-500">{{.}}</label>
+      {{end}}
     </p>
 
     <p>
@@ -20,7 +24,14 @@
         name="content"
         rows="8"
         class="w-full rounded border border-gray-500 px-2 py-1 text-lg font-mono"
-      ></textarea>
+      >
+      {{.Form.Content}}
+    </textarea
+      >
+
+      {{with .Form.FieldErrors.content}}
+      <label class="text-red-500">{{.}}</label>
+      {{end}}
     </p>
     <p class="text-right">
       <button

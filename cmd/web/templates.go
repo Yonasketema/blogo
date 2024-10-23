@@ -10,11 +10,12 @@ import (
 type templateData struct {
 	Blog  models.Blog
 	Blogs []models.Blog
+	Form  any
 }
 
 func templateCache() (map[string]*template.Template, error) {
 
-	cahce := map[string]*template.Template{}
+	cache := map[string]*template.Template{}
 
 	pages, err := filepath.Glob("./ui/html/pages/*.html")
 	if err != nil {
@@ -36,10 +37,10 @@ func templateCache() (map[string]*template.Template, error) {
 			return nil, err
 		}
 
-		cahce[name] = ts
+		cache[name] = ts
 
 	}
 
-	return cahce, nil
+	return cache, nil
 
 }

@@ -11,6 +11,12 @@ import (
 	"github.com/yonasketema/blogo/internal/models"
 )
 
+type blogCreateForm struct {
+	Title       string
+	Content     string
+	FieldErrors map[string]string
+}
+
 func (a *app) home(w http.ResponseWriter, r *http.Request) {
 
 	blogs, err := a.blogs.GetAllBlog()
@@ -41,26 +47,32 @@ func (a *app) createBlog(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	title := r.PostForm.Get("title")
-	content := r.PostForm.Get("content")
-
-	fieldErrors := make(map[string]string)
-
-	if strings.TrimSpace(title) == "" {
-		fieldErrors["title"] = "This field cannot be blank"
-	} else if utf8.RuneCountInString(title) > 300 {
-		fieldErrors["title"] = "This field cannot be more than 300 characters long"
+	formData := blogCreateForm{
+		Title:       r.PostForm.Get("title"),
+		Content:     r.PostForm.Get("content"),
+		FieldErrors: map[string]string{},
 	}
 
-	if strings.TrimSpace(content) == "" {
-		fieldErrors["content"] = "This field cannot be blank"
+	if strings.TrimSpace(formData.Title) == "" {
+		formData.FieldErrors["title"] = "This field cannot be blank"
+	} else if utf8.RuneCountInString(formData.Title) > 110 {
+		formData.FieldErrors["title"] = "This field cannot be more than 110 characters long"
 	}
-	if len(fieldErrors) > 0 {
-		fmt.Fprint(w, fieldErrors)
+
+	if strings.TrimSpace(formData.Content) == "" {
+		formData.FieldErrors["content"] = "This field cannot be blank"
+	}
+
+	if len(formData.FieldErrors) > 0 {
+
+		data := templateData{}
+		data.Form = formData
+		a.render(w, r, http.StatusUnprocessableEntity, "create.html", data)
+		fmt.Fprint(w, formData.FieldErrors)
 		return
 	}
 
-	id, err := a.blogs.InsertBlog(title, content)
+	id, err := a.blogs.InsertBlog(formData.Title, formData.Content)
 	if err != nil {
 		a.serverError(w, r, err)
 	}
@@ -71,6 +83,7 @@ func (a *app) createBlog(w http.ResponseWriter, r *http.Request) {
 func (a *app) viewCreateBlog(w http.ResponseWriter, r *http.Request) {
 
 	data := templateData{}
+	data.Form = blogCreateForm{}
 	a.render(w, r, http.StatusOK, "create.html", data)
 
 }
